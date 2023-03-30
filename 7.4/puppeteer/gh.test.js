@@ -35,36 +35,39 @@ describe("Github page tests", () => {
   }, 60000);
 });
 
-test("Learn more about GitHub Enterprise", async () => {
-  page = await browser.newPage();
-  await page.goto("https://github.com/enterprise");
-  const btnSelector = ".btn-mktg.mr-2.mt-2";
-  await page.waitForSelector(btnSelector, {
-    visible: true,
+describe("Github page tests", () => {
+  beforeEach(async () => {
+    page = await browser.newPage();
   });
-  const actual = await page.$eval(btnSelector, (link) => link.textContent);
-  expect(actual).toContain("Start a free trial");
-}, 60000);
 
-test("Learn more about GitHub Enterprise", async () => {
-  page = await browser.newPage();
-  await page.goto("https://github.com/enterprise");
-  const btnSelector = ".btn-mktg.mr-2.mt-2";
-  await page.waitForSelector(btnSelector, {
-    visible: true,
-  });
-  const actual = await page.$eval(btnSelector, (link) => link.textContent);
-  expect(actual).toContain("Start a free trial");
-}, 60000);
+  test("Learn more about GitHub Enterprise", async () => {
+    await page.goto("https://github.com/enterprise");
+    const btnSelector = ".btn-mktg.mr-2.mt-2";
+    await page.waitForSelector(btnSelector, {
+      visible: true,
+    });
+    const actual = await page.$eval(btnSelector, (link) => link.textContent);
+    expect(actual).toContain("Start a free trial");
+  }, 60000);
 
-test("Forum March 29, 2023", async () => {
-  page = await browser.newPage();
-  await page.goto(
-    "https://galaxy.github.com/session/day-1-remove-developer-roadblocks-and-streamline-productivity-with-github"
-  );
-  await page.waitForSelector("h1");
-  const title2 = await page.title();
-  expect(title2).toEqual(
-    "Remove developer roadblocks and streamline productivity with GitHub - GitHub Galaxy 2023"
-  );
-}, 60000);
+  test("Learn more about GitHub Enterprise", async () => {
+    await page.goto("https://github.com/enterprise");
+    const btnSelector = ".btn-mktg.mr-2.mt-2";
+    await page.waitForSelector(btnSelector, {
+      visible: true,
+    });
+    const actual = await page.$eval(btnSelector, (link) => link.textContent);
+    expect(actual).toContain("Start a free trial");
+  }, 60000);
+
+  test("Forum March 29, 2023", async () => {
+    await page.goto(
+      "https://galaxy.github.com/session/day-1-remove-developer-roadblocks-and-streamline-productivity-with-github"
+    );
+    await page.waitForSelector("h1");
+    const title2 = await page.title();
+    expect(title2).toEqual(
+      "Remove developer roadblocks and streamline productivity with GitHub - GitHub Galaxy 2023"
+    );
+  }, 60000);
+});
