@@ -1,22 +1,27 @@
 const { test, expect } = require("@playwright/test");
+const user = require("./user.js");
+test.setTimeout(60000);
 
-test("test", async ({ page }) => {
-  // Go to https://netology.ru/free/management#/
-  await page.goto("https://netology.ru/free/management#/");
+test.beforeEach(async ({ page }) => {
+  await page.goto("https://netology.ru/?modal=sign_in");
+});
 
-  // Click a
-  await page.click("a");
-  await expect(page).toHaveURL("https://netology.ru/");
+test("sucsessful login", async ({ page }) => {
+  await page.locator('[placeholder="Email"]').click();
+  await page.locator('[placeholder="Email"]').fill(user.email);
+  await page.locator('[placeholder="Пароль"]').click();
+  await page.locator('[placeholder="Пароль"]').fill(user.password);
+  await page.locator('[data-testid="login-submit-btn"]').click();
+  await expect(page).toHaveURL("https://netology.ru/profile");
+});
 
-  // Click text=Учиться бесплатно
-  await page.click("text=Учиться бесплатно");
-  await expect(page).toHaveURL("https://netology.ru/free");
-
-  page.click("text=Бизнес и управление");
-
-  // Click text=Как перенести своё дело в онлайн
-  await page.click("text=Как перенести своё дело в онлайн");
-  await expect(page).toHaveURL(
-    "https://netology.ru/programs/kak-perenesti-svoyo-delo-v-onlajn-bp"
+test("login with false password", async ({ page }) => {
+  await page.locator('[placeholder="Email"]').click();
+  await page.locator('[placeholder="Email"]').fill(user.email);
+  await page.locator('[placeholder="Пароль"]').click();
+  await page.locator('[placeholder="Пароль"]').fill("wrong password");
+  await page.locator('[data-testid="login-submit-btn"]').click();
+  await expect(page.locator('[data-testid="login-error-hint"]')).toHaveText(
+    "Вы ввели неправильно логин или пароль"
   );
 });
